@@ -11,60 +11,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
         with:
-          node-version: 22
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Create TWA manifest
+      - name: Configure Bubblewrap
         run: |
-          cat > twa-manifest.json <<'EOF'
+          mkdir -p ~/.bubblewrap
+          cat > ~/.bubblewrap/config.json <<EOF
           {
-            "packageId": "com.barishalsupershop.app",
-            "host": "arafatroman0001h-debug.github.io",
-            "name": "বরিশাল সুপার শপ",
-            "launcherName": "বরিশাল সুপার শপ",
-            "display": "standalone",
-            "themeColor": "#16A34A",
-            "themeColorDark": "#16A34A",
-            "navigationColor": "#FFFFFF",
-            "navigationColorDark": "#000000",
-            "navigationDividerColor": "#FFFFFF",
-            "navigationDividerColorDark": "#000000",
-            "backgroundColor": "#FFFFFF",
-            "enableNotifications": true,
-            "startUrl": "/barishal-super-shop/",
-            "iconUrl": "https://dummyimage.com/512x512/16a34a/ffffff.png&text=BSS",
-            "splashScreenFadeOutDuration": 300,
-            "signingKey": {
-              "path": "./android.keystore",
-              "alias": "android"
-            },
-            "appVersionName": "1.0",
-            "appVersionCode": 1,
-            "shortcuts": [],
-            "generatorApp": "bubblewrap-cli",
-            "webManifestUrl": "https://arafatroman0001h-debug.github.io/barishal-super-shop/site.webmanifest",
-            "fallbackType": "customtabs",
-            "features": {},
-            "alphaDependencies": {
-              "enabled": false
-            },
-            "enableSiteSettingsShortcut": true,
-            "isChromeOSOnly": false,
-            "isMetaQuest": false,
-            "minSdkVersion": 23,
-            "orientation": "any",
-            "fingerprints": [],
-            "additionalTrustedOrigins": [],
-            "retainedBundles": []
+            "jdkPath": "${JAVA_HOME}",
+            "androidSdkPath": "${ANDROID_HOME}"
           }
           EOF
 
-      - name: Generate Android project
+      - name: Create Android project
         run: |
           bubblewrap update --skipVersionUpgrade --manifest=twa-manifest.json
 
