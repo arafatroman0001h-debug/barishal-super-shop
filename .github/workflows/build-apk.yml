@@ -14,19 +14,63 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Create TWA project
+      - name: Create TWA manifest
         run: |
-          bubblewrap init \
-            --manifest "https://arafatroman0001h-debug.github.io/barishal-super-shop/site.webmanifest"
+          cat > twa-manifest.json <<'EOF'
+          {
+            "packageId": "com.barishalsupershop.app",
+            "host": "arafatroman0001h-debug.github.io",
+            "name": "বরিশাল সুপার শপ",
+            "launcherName": "বরিশাল সুপার শপ",
+            "display": "standalone",
+            "themeColor": "#16A34A",
+            "themeColorDark": "#16A34A",
+            "navigationColor": "#FFFFFF",
+            "navigationColorDark": "#000000",
+            "navigationDividerColor": "#FFFFFF",
+            "navigationDividerColorDark": "#000000",
+            "backgroundColor": "#FFFFFF",
+            "enableNotifications": true,
+            "startUrl": "/barishal-super-shop/",
+            "iconUrl": "https://dummyimage.com/512x512/16a34a/ffffff.png&text=BSS",
+            "splashScreenFadeOutDuration": 300,
+            "signingKey": {
+              "path": "./android.keystore",
+              "alias": "android"
+            },
+            "appVersionName": "1.0",
+            "appVersionCode": 1,
+            "shortcuts": [],
+            "generatorApp": "bubblewrap-cli",
+            "webManifestUrl": "https://arafatroman0001h-debug.github.io/barishal-super-shop/site.webmanifest",
+            "fallbackType": "customtabs",
+            "features": {},
+            "alphaDependencies": {
+              "enabled": false
+            },
+            "enableSiteSettingsShortcut": true,
+            "isChromeOSOnly": false,
+            "isMetaQuest": false,
+            "minSdkVersion": 23,
+            "orientation": "any",
+            "fingerprints": [],
+            "additionalTrustedOrigins": [],
+            "retainedBundles": []
+          }
+          EOF
+
+      - name: Generate Android project
+        run: |
+          bubblewrap update --skipVersionUpgrade --manifest=twa-manifest.json
 
       - name: Build APK
         run: |
-          bubblewrap build --skipSigning
+          bubblewrap build --skipSigning --manifest=twa-manifest.json
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
