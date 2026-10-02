@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>বরিশাল শুপার সপ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f6f8;
+      color: #222;
+    }
+
+    header {
+      background: #087f5b;
+      color: white;
+      padding: 18px 15px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .cart {
+      background: white;
+      color: #087f5b;
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: white;
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    .hero h1 {
+      color: #087f5b;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #666;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px 15px;
+    }
+
+    .title {
+      margin-bottom: 15px;
+      color: #087f5b;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 8px #00000012;
+    }
+
+    .product-image {
+      height: 110px;
+      background: #e9f7f2;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+      margin-bottom: 12px;
+    }
+
+    .product h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .price {
+      color: #087f5b;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .add {
+      width: 100%;
+      border: 0;
+      background: #087f5b;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .cart-box {
+      display: none;
+      background: white;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #00000012;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .checkout {
+      margin-top: 15px;
+      width: 100%;
+      background: #ff7a00;
+      color: white;
+      border: 0;
+      padding: 13px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      margin-top: 30px;
+      background: #087f5b;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header">
+    <div class="logo">🛒 বরিশাল শুপার সপ</div>
+    <button class="cart" onclick="showCart()">
+      🛍️ কার্ট (<span id="count">0</span>)
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>বরিশাল শুপার সপ</h1>
+  <p>আপনার প্রয়োজনীয় পণ্য এখন সহজেই অর্ডার করুন</p>
+</section>
+
+<div class="container">
+
+  <h2 class="title">🛒 আমাদের পণ্য</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <div class="product-image">🍚</div>
+      <h3>চাল</h3>
+      <div class="price">৳ 80 / কেজি</div>
+      <button class="add" onclick="addToCart('চাল',80)">কার্টে যোগ করুন</button>
+    </div>
+
+    <div class="product">
+      <div class="product-image">🛢️</div>
+      <h3>সয়াবিন তেল</h3>
+      <div class="price">৳ 180 / লিটার</div>
+      <button class="add" onclick="addToCart('সয়াবিন তেল',180)">কার্টে যোগ করুন</button>
+    </div>
+
+    <div class="product">
+      <div class="product-image">🍬</div>
+      <h3>চিনি</h3>
+      <div class="price">৳ 130 / কেজি</div>
+      <button class="add" onclick="addToCart('চিনি',130)">কার্টে যোগ করুন</button>
+    </div>
+
+    <div class="product">
+      <div class="product-image">🧂</div>
+      <h3>লবণ</h3>
+      <div class="price">৳ 40 / কেজি</div>
+      <button class="add" onclick="addToCart('লবণ',40)">কার্টে যোগ করুন</button>
+    </div>
+
+    <div class="product">
+      <div class="product-image">🥔</div>
+      <h3>আলু</h3>
+      <div class="price">৳ 45 / কেজি</div>
+      <button class="add" onclick="addToCart('আলু',45)">কার্টে যোগ করুন</button>
+    </div>
+
+    <div class="product">
+      <div class="product-image">🧼</div>
+      <h3>সাবান</h3>
+      <div class="price">৳ 50</div>
+      <button class="add" onclick="addToCart('সাবান',50)">কার্টে যোগ করুন</button>
+    </div>
+
+  </div>
+
+  <div id="cartBox" class="cart-box">
+    <h2>🛍️ আপনার কার্ট</h2>
+    <div id="cartItems"></div>
+
+    <h3 style="margin-top:15px;">
+      মোট: ৳ <span id="total">0</span>
+    </h3>
+
+    <button class="checkout" onclick="checkout()">
+      অর্ডার করুন
+    </button>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 বরিশাল শুপার সপ
+</footer>
+
+<script>
+  let cart = [];
+  let total = 0;
+
+  function addToCart(name, price) {
+    cart.push({name, price});
+    total += price;
+
+    document.getElementById("count").innerText = cart.length;
+
+    alert(name + " কার্টে যোগ হয়েছে");
+  }
+
+  function showCart() {
+    const box = document.getElementById("cartBox");
+    box.style.display = "block";
+
+    const items = document.getElementById("cartItems");
+    items.innerHTML = "";
+
+    cart.forEach((item, index) => {
+      items.innerHTML += `
+        <div class="cart-item">
+          <span>${index + 1}. ${item.name}</span>
+          <b>৳ ${item.price}</b>
+        </div>
+      `;
+    });
+
+    document.getElementById("total").innerText = total;
+  }
+
+  function checkout() {
+    if (cart.length === 0) {
+      alert("আগে কিছু পণ্য কার্টে যোগ করুন");
+      return;
+    }
+
+    alert(
+      "আপনার অর্ডার প্রস্তুত হয়েছে! মোট মূল্য: ৳ " + total
+    );
+  }
+</script>
+
+</body>
+  </html>
