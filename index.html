@@ -4,8 +4,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#087443"><link rel="manifest" href="/manifest.webmanifest">
 <title>বরিশাল সুপার শপ</title>
-<!-- Appwrite SDK যুক্ত করা হলো -->
-<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.0"></script>
 <style>
 :root{--g:#087443;--pink:#f85676;--bg:#f5f6f8}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,"Noto Sans Bengali",sans-serif;color:#222;padding-bottom:76px}header{position:sticky;top:0;z-index:4;background:var(--g);color:#fff;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}.brand{font-weight:800;font-size:20px}.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:700;font-size:14px;cursor:pointer}.green{background:var(--g);color:white}.pale{background:#e3f2e9;color:var(--g)}.pink{background:var(--pink);color:white}.cartbtn{background:#ffffff25;color:#fff}.wrap{max-width:800px;margin:auto;padding:13px}.hero{border-radius:17px;padding:19px;color:white;background:linear-gradient(135deg,#075b38,#0c9b66);margin-bottom:13px}.hero h1{margin:0 0 7px;font-size:23px}.hero p{margin:0}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0;flex:1}.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.search,.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:11px;background:white;font:inherit}.search{margin-bottom:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.card{background:white;border:1px solid #eee;border-radius:14px;overflow:hidden}.card img{width:100%;height:145px;object-fit:cover;background:#eee}.info{padding:10px}.info h3{font-size:15px;margin:0 0 6px}.price{font-weight:800;color:#df3f60;font-size:18px}.muted{font-size:12px;color:#666}.card .btn{width:100%;margin-top:8px}.panel{background:white;padding:15px;border-radius:15px;margin-bottom:13px;box-shadow:0 2px 9px #00000008}.panel h2{font-size:21px;margin:0 0 13px}.field{margin:12px 0}.field label{display:block;font-weight:700;margin-bottom:6px}.field textarea{min-height:70px}.notice{background:#fff6dc;border:1px solid #f0dfa0;padding:11px;border-radius:11px;font-size:13px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.bottom{position:fixed;bottom:0;left:0;right:0;z-index:4;display:flex;justify-content:space-around;background:white;border-top:1px solid #ddd;padding:6px 3px calc(6px + env(safe-area-inset-bottom))}.bottom button{border:0;background:none;color:#555;font-size:11px;font-weight:700}.bottom span{display:block;font-size:19px;margin-bottom:3px}.line{border:0;border-top:1px solid #eee;margin:13px 0}.status{font-size:13px;color:#555;line-height:1.5}@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card img{height:180px}}
 </style></head>
@@ -16,124 +14,176 @@
 <div class="hero"><h1>আপনার পছন্দের বাজার</h1><p>সহজে পণ্য খুঁজুন ও অর্ডার করুন</p></div>
 <div class="actions"><button class="btn green" onclick="go('post')">＋ পণ্য পোস্ট</button><button class="btn pale" onclick="go('favorites')">♡ ফেভারিট</button><button class="btn pale" onclick="go('orders')">📦 অর্ডার ট্র্যাক</button><button class="btn pale" onclick="go('account')">👤 অ্যাকাউন্ট</button></div>
 <input id="search" class="search" placeholder="🔎 পণ্য খুঁজুন...">
-<div id="products" class="grid"><p>লোড হচ্ছে...</p></div>
+<div id="products" class="grid"></div>
 </section>
 <section id="post" class="panel hidden"><div class="row"><h2>＋ পণ্য পোস্ট করুন</h2><button class="btn pale" onclick="go('home')">✕</button></div>
-<div class="notice">আপনার পোস্ট সরাসরি অ্যাপরাইট ডাটাবেসে জমা হবে।</div>
+<div class="notice">আপনার পোস্ট এই ডিভাইসে তাৎক্ষণিকভাবে সেভ হবে এবং হোম পেজে দেখা যাবে।</div>
 <form id="postForm">
 <div class="field"><label for="pname">পণ্যের নাম *</label><input id="pname" required maxlength="100"></div>
 <div class="row"><div class="field"><label for="pprice">দাম (টাকা) *</label><input id="pprice" type="number" min="0" required></div><div class="field"><label for="pstock">স্টক</label><input id="pstock" type="number" min="0" value="1" required></div></div>
 <div class="field"><label for="pcat">ক্যাটাগরি</label><select id="pcat"><option>চাল</option><option>ডাল</option><option>তেল</option><option>মসলা</option><option>মাছ ও মাংস</option><option>ফল</option><option>সবজি</option><option>ইলেকট্রনিক্স</option><option>ফ্যাশন</option><option>অন্যান্য</option></select></div>
-<div class="field"><label for="pimage">ছবির লিংক বা ইউআরএল</label><input id="pimage" placeholder="https://..."></div>
+<div class="field"><label for="pimage">ছবির লিংক বা ইউআরএল</label><input id="pimage" placeholder="https://images.unsplash.com/..."></div>
 <div class="field"><label for="pdesc">বর্ণনা</label><textarea id="pdesc" maxlength="500"></textarea></div><button class="btn green" style="width:100%" type="submit">পোস্ট করুন</button></form></section>
 <section id="favorites" class="panel hidden"><h2>♡ ফেভারিট</h2><div id="favoriteList" class="grid"></div></section>
 <section id="cart" class="panel hidden"><h2>🛍️ কার্ট</h2><div id="cartItems"></div><hr class="line"><div class="field"><label for="buyer">নাম</label><input id="buyer"></div><div class="field"><label for="buyerPhone">ফোন</label><input id="buyerPhone" type="tel"></div><div class="field"><label for="addr">ঠিকানা</label><textarea id="addr"></textarea></div><div class="field"><label for="area">ডেলিভারি এলাকা</label><select id="area"><option value="60">বরিশাল শহর — ৳৬০</option><option value="100">বরিশালের বাইরে — ৳১০০</option><option value="150">দূরবর্তী এলাকা — ৳১৫০</option></select></div><div class="field"><label for="coupon">কুপন কোড</label><input id="coupon" placeholder="WELCOME10"></div><p id="totals" class="status"></p><div class="field"><label for="pay">পেমেন্ট পদ্ধতি</label><select id="pay"><option value="cod">ক্যাশ অন ডেলিভারি</option></select></div><button class="btn green" id="checkout">অর্ডার নিশ্চিত করুন</button><p id="orderMsg" class="status"></p></section>
-<section id="orders" class="panel hidden"><h2>📦 অর্ডার ট্র্যাক</h2><div id="orderList"><p>অর্ডার লিস্ট খালি।</p></div></section>
+<section id="orders" class="panel hidden"><h2>📦 অর্ডার ট্র্যাক</h2><div id="orderList"></div></section>
 <section id="account" class="panel hidden"><h2>👤 অ্যাকাউন্ট</h2><div class="field"><label for="accName">নাম</label><input id="accName"></div><div class="field"><label for="accId">ফোন অথবা ইমেইল</label><input id="accId" placeholder="01XXXXXXXXX"></div><button class="btn green" id="saveAcc">সংরক্ষণ</button><p id="accMsg" class="status"></p></section>
 </main>
 <nav class="bottom"><button onclick="go('home')"><span>⌂</span>হোম</button><button onclick="go('post')"><span>＋</span>পোস্ট</button><button onclick="go('orders')"><span>📦</span>অর্ডার</button><button onclick="go('account')"><span>⚙</span>অ্যাকাউন্ট</button></nav>
 <script>
-// Appwrite কনফিগারেশন (সঠিক আইডি সহ)
-const { Client, Databases, ID } = Appwrite;
-const client = new Client()
-    .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('6ac8d05f000ce6878d3e');
+const KEYS = { p: 'bss_products_v4', c: 'bss_cart_v4', o: 'bss_orders_v4', f: 'bss_fav_v4', u: 'bss_user_v4' };
+const defaultProducts = [
+    { id: 'd1', name: 'বরিশালের গাওয়া ঘি', price: 1200, stock: 10, category: 'দুধ ও ডিম', image: 'https://images.unsplash.com/photo-1630409346824-4f0e7b080087?auto=format&fit=crop&w=700&q=80', seller: 'সুপার শপ' },
+    { id: 'd2', name: 'সুন্দরবনের খাঁটি মধু', price: 750, stock: 12, category: 'অন্যান্য', image: 'https://images.unsplash.com/photo-1587049352851-8d4e89133924?auto=format&fit=crop&w=700&q=80', seller: 'সুপার শপ' },
+    { id: 'd3', name: 'দেশি মুগ ডাল', price: 140, stock: 40, category: 'ডাল', image: 'https://images.unsplash.com/photo-1515543904379-3d757acca72a?auto=format&fit=crop&w=700&q=80', seller: 'সুপার শপ' },
+    { id: 'd4', name: 'স্মার্ট ওয়াচ', price: 1850, stock: 8, category: 'ইলেকট্রনিক্স', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80', seller: 'সুপার শপ' }
+];
 
-const databases = new Databases(client);
-const DATABASE_ID = 'tablesdb';
-const COLLECTION_ID = '6ac8d298001cbc7715e5';
+let products = JSON.parse(localStorage.getItem(KEYS.p)) || defaultProducts;
+let cart = JSON.parse(localStorage.getItem(KEYS.c)) || [];
+let orders = JSON.parse(localStorage.getItem(KEYS.o)) || [];
+let favs = JSON.parse(localStorage.getItem(KEYS.f)) || [];
+let user = JSON.parse(localStorage.getItem(KEYS.u)) || { name: '', id: '' };
 
-let products = [], cart = JSON.parse(localStorage.getItem('bss_c3') || '[]'), favs = JSON.parse(localStorage.getItem('bss_f3') || '[]');
-
-function go(id){
-    ['home','post','favorites','cart','orders','account'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));
-    if(id==='home') loadProducts();
-    if(id==='favorites') renderFavorites();
-    if(id==='cart') renderCart();
-}
-
-async function loadProducts() {
-    try {
-        const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
-        products = response.documents;
-        renderProductsList();
-    } catch (error) {
-        console.error("ডাটা লোড ত্রুটি:", error);
-        document.getElementById('products').innerHTML = '<p style="color:red;">ডাটাবেস থেকে পণ্য লোড করা যায়নি।</p>';
+function go(id) {
+    ['home', 'post', 'favorites', 'cart', 'orders', 'account'].forEach(x => document.getElementById(x).classList.toggle('hidden', x !== id));
+    if (id === 'home') renderProducts();
+    if (id === 'favorites') renderFavorites();
+    if (id === 'cart') renderCart();
+    if (id === 'orders') renderOrders();
+    if (id === 'account') {
+        document.getElementById('accName').value = user.name || '';
+        document.getElementById('accId').value = user.id || '';
     }
 }
 
-function renderProductsList() {
+function renderProducts() {
     let q = document.getElementById('search').value.toLowerCase().trim();
     let list = products.filter(p => (p.name + ' ' + (p.category || '')).toLowerCase().includes(q));
-    document.getElementById('products').innerHTML = list.length ? list.map(p => card(p)).join('') : '<p>কোনো পণ্য পাওয়া যায়নি।</p>';
+    document.getElementById('products').innerHTML = list.length ? list.map(p => card(p)).join('') : '<p style="padding:10px;">কোনো পণ্য পাওয়া যায়নি।</p>';
     updateCount();
 }
 
-document.getElementById('search').oninput = renderProductsList;
+document.getElementById('search').oninput = renderProducts;
 
-function card(p){
-    return `<article class="card"><img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}"><div class="info"><h3>${p.name}</h3><div class="price">৳${p.price}</div><div class="muted">${p.category || ''} · স্টক ${p.stock || 0}</div><button class="btn pale" onclick="toggleFav('${p.$id}')">${favs.includes(p.$id)?'♥':'♡'} ফেভারিট</button><button class="btn green" onclick="addCart('${p.$id}')">কার্টে যোগ করুন</button></div></article>`;
+function card(p) {
+    return `<article class="card">
+        <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="info">
+            <h3>${p.name}</h3>
+            <div class="price">৳${p.price}</div>
+            <div class="muted">${p.category || ''} · স্টক ${p.stock || 0}</div>
+            <button class="btn pale" onclick="toggleFav('${p.id}')">${favs.includes(p.id) ? '♥ ফেভারিট থেকে বাদ' : '♡ ফেভারিট'}</button>
+            <button class="btn green" onclick="addCart('${p.id}')">কার্টে যোগ করুন</button>
+        </div>
+    </article>`;
 }
 
-function updateCount(){document.getElementById('cartCount').textContent = cart.reduce((n,x)=>n+x.qty,0)}
-function toggleFav(id){favs = favs.includes(id)?favs.filter(x=>x!==id):[...favs,id]; localStorage.setItem('bss_f3', JSON.stringify(favs)); renderProductsList()}
-function renderFavorites(){document.getElementById('favoriteList').innerHTML = products.filter(p=>favs.includes(p.$id)).map(p=>card(p)).join('') || '<p>ফেভারিটে এখনো পণ্য যোগ করা হয়নি।</p>'}
+function updateCount() {
+    document.getElementById('cartCount').textContent = cart.reduce((n, x) => n + x.qty, 0);
+}
 
-function addCart(id){
-    let p = products.find(x=>x.$id===id);
-    if(!p || p.stock < 1){ alert('পণ্য স্টকে নেই।'); return; }
-    let c = cart.find(x=>x.id===id);
-    if(c) c.qty++; else cart.push({id, qty:1});
-    localStorage.setItem('bss_c3', JSON.stringify(cart));
+function toggleFav(id) {
+    favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id];
+    localStorage.setItem(KEYS.f, JSON.stringify(favs));
+    renderProducts();
+}
+
+function renderFavorites() {
+    document.getElementById('favoriteList').innerHTML = products.filter(p => favs.includes(p.id)).map(p => card(p)).join('') || '<p style="padding:10px;">ফেভারিটে এখনো কোনো পণ্য যোগ করা হয়নি।</p>';
+}
+
+function addCart(id) {
+    let p = products.find(x => x.id === id);
+    if (!p || p.stock < 1) { alert('পণ্য স্টকে নেই।'); return; }
+    let c = cart.find(x => x.id === id);
+    if (c) c.qty++; else cart.push({ id, qty: 1 });
+    localStorage.setItem(KEYS.c, JSON.stringify(cart));
     updateCount();
-    alert('কার্টে যোগ হয়েছে।');
+    alert('পণ্যটি কার্টে যোগ করা হয়েছে।');
 }
 
-function renderCart(){
-    let rows = cart.map(c=>({...c, p: products.find(p=>p.$id===c.id)})).filter(x=>x.p);
-    document.getElementById('cartItems').innerHTML = rows.map(x=>`<p>${x.p.name} × ${x.qty} — ৳${x.p.price * x.qty} <button class="btn pale" onclick="removeCart('${x.id}')">বাদ</button></p>`).join('') || '<p>কার্ট খালি।</p>';
+function renderCart() {
+    let rows = cart.map(c => ({ ...c, p: products.find(p => p.id === c.id })).filter(x => x.p);
+    document.getElementById('cartItems').innerHTML = rows.map(x => `<p>${x.p.name} × ${x.qty} — ৳${x.p.price * x.qty} <button class="btn pale" onclick="removeCart('${x.id}')" style="padding:4px 8px;font-size:12px;">বাদ</button></p>`).join('') || '<p>কার্ট খালি।</p>';
     calcTotal();
 }
 
-function removeCart(id){
-    cart = cart.filter(x=>x.id!==id);
-    localStorage.setItem('bss_c3', JSON.stringify(cart));
+function removeCart(id) {
+    cart = cart.filter(x => x.id !== id);
+    localStorage.setItem(KEYS.c, JSON.stringify(cart));
     renderCart();
     updateCount();
 }
 
-function calcTotal(){
-    let subtotal = cart.reduce((n,c)=>n+(products.find(p=>p.$id===c.id)?.price || 0)*c.qty, 0);
+function calcTotal() {
+    let subtotal = cart.reduce((n, c) => n + (products.find(p => p.id === c.id)?.price || 0) * c.qty, 0);
     let delivery = Number(document.getElementById('area').value || 60);
-    let discount = document.getElementById('coupon').value.trim().toUpperCase() === 'WELCOME10' ? Math.min(Math.round(subtotal*.1), 200) : 0;
+    let discount = document.getElementById('coupon').value.trim().toUpperCase() === 'WELCOME10' ? Math.min(Math.round(subtotal * .1), 200) : 0;
     document.getElementById('totals').textContent = `পণ্যের দাম ৳${subtotal} + ডেলিভারি ৳${delivery} − ছাড় ৳${discount} = মোট ৳${Math.max(0, subtotal + delivery - discount)}`;
 }
 
 document.getElementById('area').onchange = calcTotal;
 document.getElementById('coupon').oninput = calcTotal;
 
-document.getElementById('postForm').onsubmit = async (e) => {
+document.getElementById('postForm').onsubmit = (e) => {
     e.preventDefault();
-    try {
-        await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-            name: document.getElementById('pname').value.trim(),
-            price: Number(document.getElementById('pprice').value),
-            stock: Number(document.getElementById('pstock').value),
-            category: document.getElementById('pcat').value,
-            image: document.getElementById('pimage').value.trim(),
-            description: document.getElementById('pdesc').value.trim()
-        });
-        alert('পণ্য সফলভাবে পোস্ট করা হয়েছে!');
-        e.target.reset();
-        go('home');
-    } catch (err) {
-        console.error(err);
-        alert('পোস্ট করতে সমস্যা হয়েছে।');
-    }
+    let newProduct = {
+        id: 'p' + Date.now(),
+        name: document.getElementById('pname').value.trim(),
+        price: Number(document.getElementById('pprice').value),
+        stock: Number(document.getElementById('pstock').value),
+        category: document.getElementById('pcat').value,
+        image: document.getElementById('pimage').value.trim(),
+        desc: document.getElementById('pdesc').value.trim(),
+        seller: user.name || 'বিক্রেতা'
+    };
+    products.unshift(newProduct);
+    localStorage.setItem(KEYS.p, JSON.stringify(products));
+    e.target.reset();
+    alert('পণ্য সফলভাবে পোস্ট করা হয়েছে!');
+    go('home');
 };
 
-window.onload = loadProducts;
+document.getElementById('saveAcc').onclick = () => {
+    user = { name: document.getElementById('accName').value.trim(), id: document.getElementById('accId').value.trim() };
+    localStorage.setItem(KEYS.u, JSON.stringify(user));
+    document.getElementById('accMsg').textContent = 'অ্যাকাউন্টের তথ্য সংরক্ষিত হয়েছে।';
+};
+
+document.getElementById('checkout').onclick = () => {
+    if (!cart.length) return document.getElementById('orderMsg').textContent = 'কার্ট খালি রয়েছে।';
+    let name = document.getElementById('buyer').value.trim();
+    let phone = document.getElementById('buyerPhone').value.trim();
+    let address = document.getElementById('addr').value.trim();
+    if (!name || !phone || !address) return document.getElementById('orderMsg').textContent = 'দয়া করে নাম, ফোন ও ঠিকানা পূরণ করুন।';
+
+    let subtotal = cart.reduce((n, c) => n + (products.find(p => p.id === c.id)?.price || 0) * c.qty, 0);
+    let delivery = Number(document.getElementById('area').value);
+    let discount = document.getElementById('coupon').value.trim().toUpperCase() === 'WELCOME10' ? Math.min(Math.round(subtotal * .1), 200) : 0;
+
+    let order = {
+        id: 'BSS' + Date.now().toString().slice(-6),
+        name, phone, address,
+        total: Math.max(0, subtotal + delivery - discount),
+        date: new Date().toLocaleString()
+    };
+
+    orders.unshift(order);
+    cart = [];
+    localStorage.setItem(KEYS.o, JSON.stringify(orders));
+    localStorage.setItem(KEYS.c, JSON.stringify(cart));
+    updateCount();
+    renderCart();
+    document.getElementById('orderMsg').textContent = `অর্ডার সফল হয়েছে! অর্ডার আইডি: ${order.id}`;
+    alert('আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে!');
+};
+
+function renderOrders() {
+    document.getElementById('orderList').innerHTML = orders.length ? orders.map(o => `<div class="panel"><b>অর্ডার আইডি: ${o.id}</b><p>মোট টাকা: ৳${o.total} · ঠিকানা: ${o.address}</p><p class="muted">${o.date}</p></div>`).join('') : '<p style="padding:10px;">কোনো অর্ডার করা হয়নি।</p>';
+}
+
+window.onload = renderProducts;
 </script>
 </body>
 </html>
